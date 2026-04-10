@@ -1,0 +1,46 @@
+<form [formGroup]="roomForm">
+    <h1>Form</h1>
+    <div class="row">
+        <div class="col-md">
+            Numero:
+            <input type="text" formControlName="roomNumber" name="roomNumber" id="roomNumber" class="form-control"
+                placeholder="202A">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md">
+            Tipo:
+            <input type="text" formControlName="type" name="type" id="type" class="form-control" placeholder="Suite">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md">
+            Precio por noche:
+            <input type="text" formControlName="pricePerNight" name="pricePerNight" id="pricePerNight"
+                class="form-control" placeholder="800">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md">
+            Disponible:
+            <input type="text" formControlName="isAvailable" name="isAvailable" id="isAvailable" class="form-control"
+                placeholder="1">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md">
+            Max. Hospedantes:
+            <input type="text" formControlName="maxGuests" name="maxGuests" id="maxGuests" class="form-control"
+                placeholder="10">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md">
+            Descripcion:
+            <input type="text" formControlName="description" name="description" id="description" class="form-control"
+                placeholder="This is a description">
+        </div>
+    </div>
+    <button class="btn btn-primary">Ok</button>
+
+</form>

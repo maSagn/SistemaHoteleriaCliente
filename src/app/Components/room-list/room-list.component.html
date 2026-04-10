@@ -1,0 +1,35 @@
+<h1>Lista de habitaciones</h1>
+
+<a [routerLink]="['/room']" class="btn btn-success">Agregar habitacion</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Id</th>
+            <th scope="col">Numero</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Precio por noche</th>
+            <th scope="col">Disponible</th>
+            <th scope="col">Max. hospedantes</th>
+            <th scope="col">Descripcion</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (room of rooms; track room.idRoom) {
+        <tr>
+            <th scope="row">
+                <a [routerLink]="['/room', room.idRoom]" class="btn btn-warning"><i class="bi bi-pen-fill"></i></a>
+                <a (click)="eliminar(room.idRoom!)" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a>
+            </th>
+            <td>{{ room.idRoom }}</td>
+            <td>{{ room.roomNumber }}</td>
+            <td>{{ room.type }}</td>
+            <td>{{ room.pricePerNight }}</td>
+            <td>{{ room.isAvailable }}</td>
+            <td>{{ room.maxGuests }}</td>
+            <td>{{ room.description }}</td>
+        </tr>
+        }
+    </tbody>
+</table>
