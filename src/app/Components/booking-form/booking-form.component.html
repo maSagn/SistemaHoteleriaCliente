@@ -1,0 +1,66 @@
+<form [formGroup]="bookigForm">
+    <h1>Form</h1>
+    <!-- <div class="row">
+        <div class="col-md">
+            Tipo: -->
+    <!-- <input type="text" formControlName="type" name="type" id="type" class="form-control" placeholder="Suite"> -->
+    <!-- <select formControlName="type" class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="Individual">Individual</option>
+                <option value="Doble">Doble</option>
+                <option value="Suite">Suite</option>
+                <option value="Familiar">Familiar</option>
+            </select>
+        </div>
+    </div> -->
+    <div class="row">
+        <div class="col-md">
+            Hospedante:
+            <input type="text" formControlName="guestName" name="guestName" id="guestName" class="form-control"
+                placeholder="Miguel Sanchez">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md">
+            Email:
+            <input type="text" formControlName="guestEmail" name="guestEmail" id="guestEmai" class="form-control"
+                placeholder="someone@example.com">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md">
+            Habitacion:
+            <div formGroupName="room">
+                <input type="text" formControlName="roomNumber" class="form-control" placeholder="213">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md">
+            Check In:
+            <input type="date" formControlName="checkIn" name="checkIn" id="checkIn" class="form-control">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md">
+            Check Out:
+            <input type="date" formControlName="checkOut" name="checkOut" id="checkOut" class="form-control">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md">
+            Total:
+            <input type="text" formControlName="totalPrice" name="totalPrice" id="totalPrice" class="form-control"
+                placeholder="1300">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md">
+            Estatus:
+            <input type="text" formControlName="status" name="status" id="status" class="form-control"
+                placeholder="pending">
+        </div>
+    </div>
+    <button class="btn btn-primary">Ok</button>
+
+</form>

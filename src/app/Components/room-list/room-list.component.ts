@@ -34,13 +34,6 @@ export class RoomListComponent {
   }
 
   eliminar(idRoom : number) {
-    // this.usuarioService.delete(idUsuario).subscribe(() => {
-    //   console.log("Usuario eliminado");
-
-    //   //Recargar lista
-    //   this.cargarUsuarios();
-    // })
-
     Swal.fire({
     title: "¿Estás seguro?",
     text: "No podrás revertir este proceso",
@@ -64,7 +57,7 @@ export class RoomListComponent {
       }, error => {
         Swal.fire({
           title: "Error",
-          text: "No se pudo eliminar la habitación.",
+          text: error.error || "No se pudo eliminar la habitación.",
           icon: "error"
         });
       });

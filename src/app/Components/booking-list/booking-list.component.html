@@ -1,0 +1,37 @@
+<h1>Lista de reservas</h1>
+
+<a [routerLink]="['/booking']" class="btn btn-success">Agregar reserva</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Id</th>
+            <th scope="col">Habitacion</th>
+            <th scope="col">Hospedante</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Check In</th>
+            <th scope="col">Check Out</th>
+            <th scope="col">Total</th>
+            <th scope="col">Estatus</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (booking of bookings; track booking.idBooking) {
+        <tr>
+            <th scope="row">
+                <a [routerLink]="['/booking', booking.idBooking]" class="btn btn-warning"><i class="bi bi-eye"></i></a>
+                <a (click)="cancelarReserva(booking.idBooking!)" class="btn btn-danger">Cancelar</a>
+            </th>
+            <td>{{ booking.idBooking }}</td>
+            <td>{{ booking.room.roomNumber }}</td>
+            <td>{{ booking.guestName }}</td>
+            <td>{{ booking.guestEmail }}</td>
+            <td>{{ booking.checkIn }}</td>
+            <td>{{ booking.checkOut }}</td>
+            <td>{{ booking.totalPrice }}</td>
+            <td>{{ booking.status }}</td>
+        </tr>
+        }
+    </tbody>
+</table>

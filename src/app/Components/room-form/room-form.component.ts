@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoomService } from '../../Service/room.service';
+import { RoomModel } from '../../Models/RoomModel';
+
+// Sweet alert (solo cuando se usa CDN)
+declare var Swal: any;
 
 @Component({
   selector: 'app-room-form',
@@ -47,8 +51,49 @@ export class RoomFormComponent {
         });
       });
     }
-    
   }
 
+  mensajeError: string = '';
 
+  guardar() {
+    if (this.roomForm.valid) {
+      console.log("Form valido", this.roomForm.value);
+      const room: RoomModel = this.roomForm.value;
+      console.log("fomulario enviado", room);
+
+      if (this.idRoom) { // Editar
+        this.roomService.update(room, this.idRoom).subscribe(() => {
+
+          Swal.fire({
+            title: "¡Actualizada!",
+            text: "La habitacion se ha actualizado exitosamente.",
+            icon: "success"
+          });
+
+          this.router.navigate(['/rooms']);
+        })
+
+      } else { // Agregar
+        this.roomService.add(room).subscribe({
+          next: (response) => {
+            Swal.fire({
+              title: "¡Registrada!",
+              text: "La habitación se ha registrado correctamente.",
+              icon: "success"
+            });
+
+            this.router.navigate(['/rooms']);
+            //this.usuarioForm.reset();
+          },
+          error: (error) => {
+            Swal.fire({
+              title: "Correo existente",
+              text: this.mensajeError = error.error,
+              icon: "error"
+            });
+          }
+        });
+      }
+    }
+  }
 }
