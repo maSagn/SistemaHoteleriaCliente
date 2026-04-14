@@ -1,5 +1,5 @@
-<form [formGroup]="bookigForm">
-    <h1>Form</h1>
+<form [formGroup]="bookigForm" (ngSubmit)="guardar()">
+    <h1>{{ idBooking ? 'Editar' : 'Registrar' }}</h1>
     <!-- <div class="row">
         <div class="col-md">
             Tipo: -->
@@ -27,7 +27,16 @@
                 placeholder="someone@example.com">
         </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="!idBooking">
+        <div class="col-md">
+            Habitacion:
+            <div formGroupName="room">
+            <input type="text" formControlName="roomNumber" name="habitacion" id="habitacion" readonly>
+            </div>
+            <button type="button" class="btn btn-primary" (click)="abrirModal()">Ver habitaciones</button>
+        </div>
+    </div>
+    <div class="row" *ngIf="idBooking">
         <div class="col-md">
             Habitacion:
             <div formGroupName="room">
@@ -38,13 +47,20 @@
     <div class="row">
         <div class="col-md">
             Check In:
-            <input type="date" formControlName="checkIn" name="checkIn" id="checkIn" class="form-control">
+            <input type="date" formControlName="checkIn" [min]="fechaMinima" name="checkIn" id="checkIn" class="form-control">
         </div>
     </div>
     <div class="row">
         <div class="col-md">
             Check Out:
-            <input type="date" formControlName="checkOut" name="checkOut" id="checkOut" class="form-control">
+            <input type="date" formControlName="checkOut" [min]="minCheckOut" [max]="maxCheckOut" name="checkOut" id="checkOut" class="form-control">
+            <!-- <div *ngIf="bookigForm.errors?.['fechaInvalida']" class="text-danger">
+  El Check-Out debe ser mayor al Check-In
+</div>
+
+<div *ngIf="bookigForm.errors?.['maxDias']" class="text-danger">
+  La estancia no puede ser mayor a 30 días
+</div> -->
         </div>
     </div>
     <div class="row">
@@ -54,13 +70,56 @@
                 placeholder="1300">
         </div>
     </div>
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-md">
             Estatus:
             <input type="text" formControlName="status" name="status" id="status" class="form-control"
                 placeholder="pending">
         </div>
-    </div>
+    </div> -->
     <button class="btn btn-primary">Ok</button>
 
 </form>
+
+
+
+<div class="modal fade" id="roomModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Habitaciones disponibles</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Número</th>
+                            <th>Tipo</th>
+                            <th>Precio</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let room of rooms">
+                            <td>{{ room.idRoom }}</td>
+                            <td>{{ room.roomNumber }}</td>
+                            <td>{{ room.type }}</td>
+                            <td>{{ room.pricePerNight }}</td>
+                            <td>
+                                <button class="btn btn-success" (click)="seleccionarRoom(room)">
+                                    Seleccionar
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookingService } from '../../Service/booking.service';
+import { RoomModel } from '../../Models/RoomModel';
+import { RoomService } from '../../Service/room.service';
+import { BookingModel } from '../../Models/BookingModel';
+
+// Sweet alert (solo cuando se usa CDN)
+declare var Swal: any;
 
 @Component({
   selector: 'app-booking-form',
@@ -12,15 +18,23 @@ import { BookingService } from '../../Service/booking.service';
 export class BookingFormComponent {
   bookigForm!: FormGroup;
   idBooking!: number | null;
+  rooms: RoomModel[] = [];
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private roomService: RoomService
   ) { }
 
+fechaMinima: string = '';
+minCheckOut: string = '';
+maxCheckOut: string = '';
+
   ngOnInit(): void {
+    this.fechaMinima = this.obtenerFechaHoy();
+
     this.bookigForm = this.fb.group({
       idBooking: [''],
       guestName: [''],
@@ -30,9 +44,26 @@ export class BookingFormComponent {
       totalPrice: [''],
       status: [''],
       room: this.fb.group({
-        roomNumber: ['']
+        roomNumber: [''],
+        idRoom: ['']
       })
-    })
+    }, { validators: this.validarFechas.bind(this) });
+    this.bookigForm.get('checkIn')?.valueChanges.subscribe(value => {
+    if (value) {
+      const fecha = new Date(value);
+
+      // mínimo: siguiente día
+      const min = new Date(fecha);
+      min.setDate(min.getDate() + 1);
+
+      // máximo: 30 días después
+      const max = new Date(fecha);
+      max.setDate(max.getDate() + 30);
+
+      this.minCheckOut = this.formatearFecha(min);
+      this.maxCheckOut = this.formatearFecha(max);
+    }
+    });
 
     // Revisar si hay un id en la ruta
     this.idBooking = Number(this.route.snapshot.paramMap.get('id'));
@@ -48,17 +79,113 @@ export class BookingFormComponent {
           totalPrice: booking.totalPrice,
           status: booking.status,
           room: {
-            roomNumber: booking.room.roomNumber
+            roomNumber: booking.room.roomNumber,
+            idRoom: booking.room.idRoom
           }
         });
       });
     }
   }
 
-  mensajeError: string = '';
-
   formatearFecha(fecha: string | Date): string {
     return new Date(fecha).toISOString().split('T')[0];
   }
+
+  obtenerFechaHoy(): string {
+    const hoy = new Date();
+    return hoy.toISOString().split('T')[0];
+  }
+
+  abrirModal() {
+    this.roomService.getAvailableRooms().subscribe(data => {
+      this.rooms = data;
+      console.log("Habitaciones disponibles cargadas", data);
+
+      const modal = new (window as any).bootstrap.Modal(
+        document.getElementById('roomModal')
+      );
+      modal.show();
+    });
+  }
+
+  seleccionarRoom(room: any) {
+    // Setear en el form
+    this.bookigForm.patchValue({
+      room: {
+        roomNumber: room.roomNumber,
+        idRoom: room.idRoom
+      }
+    });
+
+    // Cerrar modal
+    const modal = (window as any).bootstrap.Modal.getInstance(
+      document.getElementById('roomModal')
+    );
+    modal.hide();
+  }
+
+  mensajeError: string = '';
+
+  guardar() {
+    if (this.bookigForm.valid) {
+      console.log("Form valido", this.bookigForm.value);
+      const booking: BookingModel = this.bookigForm.value;
+      console.log("fomulario enviado", booking);
+
+      this.bookingService.add(booking).subscribe({
+        next: (response) => {
+          Swal.fire({
+            title: "¡Registrada!",
+            text: "La reserva se ha registrado correctamente.",
+            icon: "success"
+          });
+
+          this.router.navigate(['/bookings']);
+          //this.usuarioForm.reset();
+        },
+        error: (error) => {
+          Swal.fire({
+            title: "Error",
+            // text: this.mensajeError = error.error,
+            text: "Ha ocurrido un error",
+            icon: "error"
+          });
+        }
+      });
+    }
+  }
+
+  mayorQueCheckIn(control: AbstractControl): ValidationErrors | null {
+  const checkIn = control.get('checkIn')?.value;
+  const checkOut = control.get('checkOut')?.value;
+
+  if (!checkIn || !checkOut) return null;
+
+  const fechaIn = new Date(checkIn);
+  const fechaOut = new Date(checkOut);
+
+  return fechaOut <= fechaIn ? { fechaInvalida: true } : null;
+}
+
+maximo30Dias(control: AbstractControl): ValidationErrors | null {
+  const checkIn = control.get('checkIn')?.value;
+  const checkOut = control.get('checkOut')?.value;
+
+  if (!checkIn || !checkOut) return null;
+
+  const fechaIn = new Date(checkIn);
+  const fechaOut = new Date(checkOut);
+
+  const dias = (fechaOut.getTime() - fechaIn.getTime()) / (1000 * 60 * 60 * 24);
+
+  return dias > 30 ? { maxDias: true } : null;
+}
+
+validarFechas(control: AbstractControl): ValidationErrors | null {
+  return {
+    ...this.mayorQueCheckIn(control),
+    ...this.maximo30Dias(control)
+  };
+}
 
 }

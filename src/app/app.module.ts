@@ -9,13 +9,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { RoomFormComponent } from './Components/room-form/room-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { BookingListComponent } from './Components/booking-list/booking-list.component';
+import { BookingFormComponent } from './Components/booking-form/booking-form.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     RoomListComponent,
     RoomFormComponent,
-    RoomFormComponent
+    BookingListComponent,
+    BookingFormComponent
   ],
   imports: [
     BrowserModule,

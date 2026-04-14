@@ -25,7 +25,25 @@ export class RoomService {
     );
   }
 
+  add(room: RoomModel): Observable<RoomModel> {
+    return this.http.post<Result<RoomModel>>(this.url, room).pipe(
+      map(response => response.object)
+    );
+  }
+
+  update(room: RoomModel, idRoom: number): Observable<RoomModel> {
+    return this.http.patch<Result<RoomModel>>(`${this.url}/${idRoom}`, room).pipe(
+      map(response => response.object)
+    );
+  }
+
   delete(idRoom: number): Observable<void> {
     return this.http.delete<void>(`${this.url}/${idRoom}`);
+  }
+
+  getAvailableRooms(): Observable<RoomModel[]> {
+    return this.http.get<Result<RoomModel[]>>(`${this.url}/availableRooms`).pipe(
+      map(response => response.object)
+    );
   }
 }
