@@ -1,36 +1,179 @@
-<h1>Lista de habitaciones</h1>
+<div class="container-fluid fondo-hotel py-4">
 
-<a [routerLink]="['/room']" class="btn btn-success">Agregar habitacion</a>
-<a [routerLink]="['/bookings']" class="btn btn-primary">Reservas</a>
+    <!-- HEADER -->
+    <div class="header-hotel mb-4">
+        <div>
+            <h2 class="titulo">
+                <i class="bi bi-building"></i> Gestión de Habitaciones
+            </h2>
+            <p class="subtitulo">
+                Administra disponibilidad, precios y detalles
+            </p>
+        </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Id</th>
-            <th scope="col">Numero</th>
-            <th scope="col">Tipo</th>
-            <th scope="col">Precio por noche</th>
-            <th scope="col">Disponible</th>
-            <th scope="col">Max. hospedantes</th>
-            <th scope="col">Descripcion</th>
-        </tr>
-    </thead>
-    <tbody>
+        <div class="acciones-header">
+            <a [routerLink]="['/room']" class="btn btn-hotel">
+                <i class="bi bi-plus-lg"></i> Nueva
+            </a>
+
+            <a [routerLink]="['/bookings']" class="btn btn-outline-hotel">
+                <i class="bi bi-calendar-check"></i> Reservas
+            </a>
+        </div>
+    </div>
+
+    <br>
+    <div class="filter">
+        <div class="row">
+            <div class="col-md-3">
+                Tipo:
+                <select class="form-select" [(ngModel)]="tipoSeleccionado" name="tipo" aria-label="Default select example">
+                    <option value="">Todas</option>
+                    <option value="Individual">Individual</option>
+                    <option value="Doble">Doble</option>
+                    <option value="Suite">Suite</option>
+                    <option value="Familiar">Familiar</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                Disponibilidad
+                <select class="form-select" [(ngModel)]="disponibleSeleccionado" name="disponible" aria-label="Default select example">
+                    <option [ngValue]="null">Todas</option>
+                    <option [ngValue]="true">Disponible</option>
+                    <option [ngValue]="false">Ocupada</option>
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <button type="button" class="btn btn-success" (click)="filtrar()">
+                    Buscar
+                </button>
+
+                <button type="button" class="btn btn-secondary" (click)="limpiarFiltro()">
+                    Limpiar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLA DESKTOP -->
+    <div class="card hotel-card d-none d-md-block">
+        <div class="table-responsive">
+
+            <table class="table tabla-pro align-middle">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>ID</th>
+                        <th><i class="bi bi-door-open"></i> Habitación</th>
+                        <th><i class="bi bi-grid"></i> Tipo</th>
+                        <th><i class="bi bi-cash"></i> Precio</th>
+                        <th><i class="bi bi-check-circle"></i> Estado</th>
+                        <th><i class="bi bi-people"></i> Capacidad</th>
+                        <th><i class="bi bi-card-text"></i> Descripción</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @for (room of rooms; track room.idRoom) {
+                    <tr>
+
+                        <!-- ACCIONES -->
+                        <td>
+                            <a [routerLink]="['/room', room.idRoom]" class="btn btn-icon edit">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+
+                            <a (click)="eliminar(room.idRoom!)" class="btn btn-icon delete">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+
+                        <td class="fw-bold">{{ room.idRoom }}</td>
+
+                        <td>
+                            <span class="habitacion-badge">
+                                <i class="bi bi-door-open"></i>
+                                {{ room.roomNumber }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="badge tipo">
+                                {{ room.type }}
+                            </span>
+                        </td>
+
+                        <td class="precio">
+                            <i class="bi bi-currency-dollar"></i>
+                            {{ room.pricePerNight }}
+                        </td>
+
+                        <td>
+                            <span class="estado" [ngClass]="room.isAvailable ? 'disponible' : 'ocupado'">
+                                <i class="bi" [ngClass]="room.isAvailable ? 'bi-check-circle' : 'bi-x-circle'"></i>
+                                {{ room.isAvailable ? 'Disponible' : 'Ocupada' }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <i class="bi bi-people"></i> {{ room.maxGuests }}
+                        </td>
+
+                        <td class="descripcion">
+                            {{ room.description }}
+                        </td>
+
+                    </tr>
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+    <!-- CARDS MOBILE -->
+    <div class="d-md-none">
+
         @for (room of rooms; track room.idRoom) {
-        <tr>
-            <th scope="row">
-                <a [routerLink]="['/room', room.idRoom]" class="btn btn-warning"><i class="bi bi-pen-fill"></i></a>
-                <a (click)="eliminar(room.idRoom!)" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a>
-            </th>
-            <td>{{ room.idRoom }}</td>
-            <td>{{ room.roomNumber }}</td>
-            <td>{{ room.type }}</td>
-            <td>{{ room.pricePerNight }}</td>
-            <td>{{ room.isAvailable }}</td>
-            <td>{{ room.maxGuests }}</td>
-            <td>{{ room.description }}</td>
-        </tr>
+        <div class="card room-card mb-3">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="mb-0">
+                        <i class="bi bi-door-open"></i> {{ room.roomNumber }}
+                    </h5>
+
+                    <span class="estado" [ngClass]="room.isAvailable ? 'disponible' : 'ocupado'">
+                        {{ room.isAvailable ? 'Disponible' : 'Ocupada' }}
+                    </span>
+                </div>
+
+                <p><i class="bi bi-grid"></i> {{ room.type }}</p>
+                <p><i class="bi bi-cash"></i> ${{ room.pricePerNight }}</p>
+                <p><i class="bi bi-people"></i> {{ room.maxGuests }}</p>
+
+                <p class="descripcion">
+                    <i class="bi bi-card-text"></i> {{ room.description }}
+                </p>
+
+                <div class="mt-3 d-flex gap-2">
+                    <a [routerLink]="['/room', room.idRoom]" class="btn btn-sm btn-warning">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+
+                    <a (click)="eliminar(room.idRoom!)" class="btn btn-sm btn-danger">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
         }
-    </tbody>
-</table>
+
+    </div>
+
+</div>

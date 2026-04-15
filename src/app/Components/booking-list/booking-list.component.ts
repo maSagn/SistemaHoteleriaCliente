@@ -12,7 +12,7 @@ declare var Swal: any;
   styleUrl: './booking-list.component.css'
 })
 export class BookingListComponent {
-  bookings : BookingModel[] = [];
+  bookings: BookingModel[] = [];
 
   constructor(private bookingService: BookingService) { }
 
@@ -32,34 +32,55 @@ export class BookingListComponent {
 
   cancelarReserva(idBooking: number) {
     Swal.fire({
-    title: "¿Estás seguro?",
-    text: "No podrás revertir este proceso",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Sí, cancelala!",
-    cancelButtonText: "Cancelar"
-  }).then((result: any) => {
-    if (result.isConfirmed) {
-      this.bookingService.cancelBooking(idBooking).subscribe(() => {
-        Swal.fire({
-          title: "¡Reserva cancelada!",
-          text: "La reserva ha sido cancelada satisfactoriamente.",
-          icon: "success"
-          // timer: 2000
+      title: "¿Estás seguro?",
+      text: "No podrás revertir este proceso",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, cancelala!",
+      cancelButtonText: "Cancelar"
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        this.bookingService.cancelBooking(idBooking).subscribe(() => {
+          Swal.fire({
+            title: "¡Reserva cancelada!",
+            text: "La reserva ha sido cancelada satisfactoriamente.",
+            icon: "success"
+            // timer: 2000
+          });
+          // Recargar lista después de eliminar
+          this.cargarBookings();
+        }, error => {
+          Swal.fire({
+            title: "Error",
+            text: error.error || "No se cancelar la reserva.",
+            icon: "error"
+          });
         });
-        // Recargar lista después de eliminar
-        this.cargarBookings();
-      }, error => {
-        Swal.fire({
-          title: "Error",
-          text: error.error || "No se cancelar la reserva.",
-          icon: "error"
-        });
-      });
-    }
-  });
+      }
+    });
+  }
+
+  emailBusqueda: string = '';
+
+  buscarPorEmail() {
+    if (!this.emailBusqueda) return;
+
+    this.bookingService.getByGuestEmail(this.emailBusqueda).subscribe({
+      next: (data) => {
+        this.bookings = data;
+      },
+      error: (err) => {
+        console.error(err);
+        
+      }
+    })
+  }
+
+  limpiarBusqueda() {
+    this.emailBusqueda = '';
+    this.cargarBookings();
   }
 
 }

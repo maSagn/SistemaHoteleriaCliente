@@ -1,37 +1,182 @@
-<h1>Lista de reservas</h1>
+<div class="container-fluid fondo-hotel py-4">
 
-<a [routerLink]="['/booking']" class="btn btn-success">Agregar reserva</a>
+  <!-- HEADER -->
+  <div class="header-hotel mb-4">
+    <div>
+      <h2 class="titulo">
+        <i class="bi bi-calendar-check"></i> Reservas
+      </h2>
+      <p class="subtitulo">Gestión de reservas del hotel</p>
+    </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Id</th>
-            <th scope="col">Habitacion</th>
-            <th scope="col">Hospedante</th>
-            <th scope="col">Correo</th>
-            <th scope="col">Check In</th>
-            <th scope="col">Check Out</th>
-            <th scope="col">Total</th>
-            <th scope="col">Estatus</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (booking of bookings; track booking.idBooking) {
-        <tr>
-            <th scope="row">
-                <a [routerLink]="['/booking', booking.idBooking]" class="btn btn-warning"><i class="bi bi-eye"></i></a>
-                <a (click)="cancelarReserva(booking.idBooking!)" class="btn btn-danger">Cancelar</a>
-            </th>
-            <td>{{ booking.idBooking }}</td>
-            <td>{{ booking.room.roomNumber }}</td>
+    <a [routerLink]="['/booking']" class="btn btn-hotel">
+      <i class="bi bi-plus-lg"></i> Nueva reserva
+    </a>
+
+    <br>
+
+    <div class="search-email mb-3">
+      <div class="row align-items-end">
+
+        <div class="col-md-6">
+          <label>Buscar por email:</label>
+          <input type="email" class="form-control" [(ngModel)]="emailBusqueda" name="email"
+            placeholder="someone@example.com">
+        </div>
+
+        <div class="col-md-2">
+          <button type="button" class="btn btn-success w-100" (click)="buscarPorEmail()">
+            Buscar
+          </button>
+        </div>
+
+        <div class="col-md-2">
+          <button type="button" class="btn btn-secondary w-100" (click)="limpiarBusqueda()">
+            Limpiar
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TABLA DESKTOP -->
+  <div class="card hotel-card d-none d-md-block">
+    <div class="table-responsive">
+
+      <table class="table tabla-pro align-middle">
+        <thead>
+          <tr>
+            <th></th>
+            <th>ID</th>
+            <th><i class="bi bi-door-open"></i> Habitación</th>
+            <th><i class="bi bi-person"></i> Huésped</th>
+            <th><i class="bi bi-envelope"></i> Correo</th>
+            <th><i class="bi bi-calendar"></i> Check In</th>
+            <th><i class="bi bi-calendar2"></i> Check Out</th>
+            <th><i class="bi bi-cash"></i> Total</th>
+            <th><i class="bi bi-info-circle"></i> Estado</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (booking of bookings; track booking.idBooking) {
+          <tr>
+
+            <!-- ACCIONES -->
+            <td>
+              <a [routerLink]="['/booking', booking.idBooking]" class="btn btn-icon view">
+                <i class="bi bi-eye"></i>
+              </a>
+
+              <a (click)="cancelarReserva(booking.idBooking!)" class="btn btn-icon delete">
+                <i class="bi bi-x-circle"></i>
+              </a>
+            </td>
+
+            <td class="fw-bold">{{ booking.idBooking }}</td>
+
+            <td>
+              <span class="habitacion-badge">
+                <i class="bi bi-door-open"></i>
+                {{ booking.room?.roomNumber }}
+              </span>
+            </td>
+
             <td>{{ booking.guestName }}</td>
-            <td>{{ booking.guestEmail }}</td>
-            <td>{{ booking.checkIn }}</td>
-            <td>{{ booking.checkOut }}</td>
-            <td>{{ booking.totalPrice }}</td>
-            <td>{{ booking.status }}</td>
-        </tr>
-        }
-    </tbody>
-</table>
+
+            <td class="correo">
+              {{ booking.guestEmail }}
+            </td>
+
+            <td>
+              <i class="bi bi-calendar"></i>
+              {{ booking.checkIn | date:'dd MMM yyyy' }}
+            </td>
+
+            <td>
+              <i class="bi bi-calendar2"></i>
+              {{ booking.checkOut | date:'dd MMM yyyy' }}
+            </td>
+
+            <td class="precio">
+              ${{ booking.totalPrice }}
+            </td>
+
+            <td>
+              <span class="estado" [ngClass]="{
+                  'confirmado': booking.status === 'Confirmed',
+                  'pendiente': booking.status === 'Pending',
+                  'cancelado': booking.status === 'Cancelled'
+                }">
+                {{ booking.status }}
+              </span>
+            </td>
+
+          </tr>
+          }
+        </tbody>
+
+      </table>
+
+    </div>
+  </div>
+
+  <!-- CARDS MOBILE -->
+  <div class="d-md-none">
+
+    @for (booking of bookings; track booking.idBooking) {
+    <div class="card booking-card mb-3">
+
+      <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h5 class="mb-0">
+            <i class="bi bi-door-open"></i>
+            {{ booking.room?.roomNumber }}
+          </h5>
+
+          <span class="estado" [ngClass]="{
+              'confirmado': booking.status === 'Confirmed',
+              'pendiente': booking.status === 'Pending',
+              'cancelado': booking.status === 'Cancelled'
+            }">
+            {{ booking.status }}
+          </span>
+        </div>
+
+        <p><i class="bi bi-person"></i> {{ booking.guestName }}</p>
+        <p><i class="bi bi-envelope"></i> {{ booking.guestEmail }}</p>
+
+        <p>
+          <i class="bi bi-calendar"></i>
+          {{ booking.checkIn | date:'dd MMM yyyy' }}
+        </p>
+
+        <p>
+          <i class="bi bi-calendar2"></i>
+          {{ booking.checkOut | date:'dd MMM yyyy' }}
+        </p>
+
+        <p class="precio">
+          <i class="bi bi-cash"></i> ${{ booking.totalPrice }}
+        </p>
+
+        <div class="mt-3 d-flex gap-2">
+          <a [routerLink]="['/booking', booking.idBooking]" class="btn btn-sm btn-warning">
+            <i class="bi bi-eye"></i>
+          </a>
+
+          <a (click)="cancelarReserva(booking.idBooking!)" class="btn btn-sm btn-danger">
+            Cancelar
+          </a>
+        </div>
+
+      </div>
+    </div>
+    }
+
+  </div>
+
+</div>

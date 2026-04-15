@@ -1,53 +1,70 @@
-<form [formGroup]="roomForm" (ngSubmit)="guardar()">
-    <h1>Form</h1>
-    <div class="row">
-        <div class="col-md">
-            Numero:
-            <input type="text" formControlName="roomNumber" name="roomNumber" id="roomNumber" class="form-control"
-                placeholder="202A">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md">
-            Tipo:
-            <!-- <input type="text" formControlName="type" name="type" id="type" class="form-control" placeholder="Suite"> -->
-            <select formControlName="type" class="form-select" aria-label="Default select example">
-                <option selected>Open this select menu</option>
-                <option value="Individual">Individual</option>
-                <option value="Doble">Doble</option>
-                <option value="Suite">Suite</option>
-                <option value="Familiar">Familiar</option>
-            </select>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md">
-            Precio por noche:
-            <input type="text" formControlName="pricePerNight" name="pricePerNight" id="pricePerNight"
-                class="form-control" placeholder="800">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md">
-            Disponible:
-            <input type="text" formControlName="isAvailable" name="isAvailable" id="isAvailable" class="form-control"
-                placeholder="1">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md">
-            Max. Hospedantes:
-            <input type="text" formControlName="maxGuests" name="maxGuests" id="maxGuests" class="form-control"
-                placeholder="10">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md">
-            Descripcion:
-            <input type="text" formControlName="description" name="description" id="description" class="form-control"
-                placeholder="This is a description">
-        </div>
-    </div>
-    <button class="btn btn-primary">Ok</button>
+<div class="container-fluid fondo-hotel py-4">
 
-</form>
+    <div class="form-container">
+
+        <form [formGroup]="roomForm" (ngSubmit)="guardar()" class="hotel-form">
+
+            <!-- HEADER -->
+            <div class="form-header">
+                <h2>
+                    <i class="bi bi-door-open"></i> {{ idRoom ? 'Editar' : 'Registrar' }}
+                </h2>
+                <p>Agrega o edita los detalles de la habitación</p>
+            </div>
+
+            <!-- NUMERO -->
+            <div class="form-group">
+                <label><i class="bi bi-hash"></i> Número</label>
+                <input type="text" formControlName="roomNumber" class="form-control" placeholder="202A">
+            </div>
+
+            <!-- TIPO -->
+            <div class="form-group">
+                <label><i class="bi bi-grid"></i> Tipo</label>
+                <select formControlName="type" class="form-select">
+                    <option selected>Selecciona tipo</option>
+                    <option value="Individual">Individual</option>
+                    <option value="Doble">Doble</option>
+                    <option value="Suite">Suite</option>
+                    <option value="Familiar">Familiar</option>
+                </select>
+            </div>
+
+            <!-- PRECIO + CAPACIDAD -->
+            <div class="row">
+                <div class="col-md form-group">
+                    <label><i class="bi bi-cash"></i> Precio por noche</label>
+                    <input type="text" formControlName="pricePerNight" class="form-control" placeholder="800">
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label><i class="bi bi-people"></i> Máx. Hospedantes</label>
+                    <input type="text" formControlName="maxGuests" class="form-control" placeholder="10">
+                </div>
+            </div>
+
+            <!-- CAPACIDAD -->
+            <!--<div class="form-group">
+                <label><i class="bi bi-people"></i> Máx. Hospedantes</label>
+                <input type="text" formControlName="maxGuests" class="form-control" placeholder="10">
+            </div>-->
+
+            <!-- DESCRIPCIÓN -->
+            <div class="form-group">
+                <label><i class="bi bi-card-text"></i> Descripción</label>
+                <textarea formControlName="description" class="form-control" rows="3"
+                    placeholder="This is a description"></textarea>
+            </div>
+
+            <!-- BOTÓN -->
+            <div class="text-end mt-4">
+                <button class="btn btn-hotel">
+                    <i class="bi bi-check-lg"></i> Guardar
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

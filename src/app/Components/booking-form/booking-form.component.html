@@ -1,106 +1,140 @@
-<form [formGroup]="bookigForm" (ngSubmit)="guardar()">
-    <h1>{{ idBooking ? 'Editar' : 'Registrar' }}</h1>
-    <!-- <div class="row">
-        <div class="col-md">
-            Tipo: -->
-    <!-- <input type="text" formControlName="type" name="type" id="type" class="form-control" placeholder="Suite"> -->
-    <!-- <select formControlName="type" class="form-select" aria-label="Default select example">
-                <option selected>Open this select menu</option>
-                <option value="Individual">Individual</option>
-                <option value="Doble">Doble</option>
-                <option value="Suite">Suite</option>
-                <option value="Familiar">Familiar</option>
-            </select>
-        </div>
-    </div> -->
-    <div class="row">
-        <div class="col-md">
-            Hospedante:
-            <input type="text" formControlName="guestName" name="guestName" id="guestName" class="form-control"
-                placeholder="Miguel Sanchez">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md">
-            Email:
-            <input type="text" formControlName="guestEmail" name="guestEmail" id="guestEmai" class="form-control"
-                placeholder="someone@example.com">
-        </div>
-    </div>
-    <div class="row" *ngIf="!idBooking">
-        <div class="col-md">
-            Habitacion:
-            <div formGroupName="room">
-            <input type="text" formControlName="roomNumber" name="habitacion" id="habitacion" readonly>
+<div class="container-fluid fondo-hotel py-4">
+
+    <div class="form-container">
+
+        <form [formGroup]="bookigForm" (ngSubmit)="guardar()" class="hotel-form">
+
+            <!-- HEADER -->
+            <div class="form-header">
+                <h2>
+                    <i class="bi bi-calendar-check"></i>
+                    {{ idBooking ? 'Detalles de la reserva' : 'Nueva Reserva' }}
+                </h2>
+                <p>Gestiona los datos de la reservación</p>
             </div>
-            <button type="button" class="btn btn-primary" (click)="abrirModal()">Ver habitaciones</button>
-        </div>
-    </div>
-    <div class="row" *ngIf="idBooking">
-        <div class="col-md">
-            Habitacion:
-            <div formGroupName="room">
-                <input type="text" formControlName="roomNumber" class="form-control" placeholder="213">
+
+            <!-- HUESPED -->
+            <div class="form-group">
+                <label><i class="bi bi-person"></i> Hospedante</label>
+                <input type="text" formControlName="guestName" class="form-control" placeholder="Miguel Sanchez">
             </div>
-        </div>
+
+            <!-- EMAIL -->
+            <div class="form-group">
+                <label><i class="bi bi-envelope"></i> Email</label>
+                <input type="text" formControlName="guestEmail" class="form-control" placeholder="someone@example.com">
+            </div>
+
+            <!-- HABITACION NUEVA -->
+            <div class="form-group" *ngIf="!idBooking">
+                <label><i class="bi bi-door-open"></i> Habitación</label>
+
+                <div class="input-group">
+                    <div formGroupName="room" class="flex-grow-1">
+                        <input type="text" formControlName="roomNumber" class="form-control" readonly
+                            placeholder="Selecciona habitación">
+                    </div>
+
+                    <button type="button" class="btn btn-outline-hotel" (click)="abrirModal()">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- HABITACION EDITAR -->
+            <div class="form-group" *ngIf="idBooking">
+                <label><i class="bi bi-door-open"></i> Habitación</label>
+                <div formGroupName="room">
+                    <input type="text" formControlName="roomNumber" class="form-control">
+                </div>
+            </div>
+
+            <!-- FECHAS -->
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label><i class="bi bi-calendar"></i> Check In</label>
+                    <input type="date" formControlName="checkIn" [min]="fechaMinima" class="form-control">
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label><i class="bi bi-calendar2"></i> Check Out</label>
+                    <input type="date" formControlName="checkOut" [min]="minCheckOut" [max]="maxCheckOut"
+                        class="form-control">
+                </div>
+            </div>
+
+            <!-- ERRORES -->
+            <div class="text-danger small mt-1" *ngIf="bookigForm.errors?.['fechaInvalida']">
+                Check-Out debe ser mayor que Check-In
+            </div>
+
+            <div class="text-danger small" *ngIf="bookigForm.errors?.['maxDias']">
+                Máximo 30 días de estancia
+            </div>
+
+            <!-- TOTAL -->
+            <div class="form-group">
+                <label><i class="bi bi-cash"></i> Total</label>
+                <input type="text" formControlName="totalPrice" class="form-control" placeholder="1300">
+            </div>
+
+            <!-- BOTON -->
+            <div class="text-end mt-4" *ngIf="!idBooking">
+                <button class="btn btn-hotel" [disabled]="bookigForm.invalid">
+                    <i class="bi bi-check-lg"></i>
+                    Guardar
+                </button>
+            </div>
+
+        </form>
+
     </div>
-    <div class="row">
-        <div class="col-md">
-            Check In:
-            <input type="date" formControlName="checkIn" [min]="fechaMinima" name="checkIn" id="checkIn" class="form-control">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md">
-            Check Out:
-            <input type="date" formControlName="checkOut" [min]="minCheckOut" [max]="maxCheckOut" name="checkOut" id="checkOut" class="form-control">
-            <!-- <div *ngIf="bookigForm.errors?.['fechaInvalida']" class="text-danger">
-  El Check-Out debe ser mayor al Check-In
+
 </div>
 
-<div *ngIf="bookigForm.errors?.['maxDias']" class="text-danger">
-  La estancia no puede ser mayor a 30 días
-</div> -->
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md">
-            Total:
-            <input type="text" formControlName="totalPrice" name="totalPrice" id="totalPrice" class="form-control"
-                placeholder="1300">
-        </div>
-    </div>
-    <!-- <div class="row">
-        <div class="col-md">
-            Estatus:
-            <input type="text" formControlName="status" name="status" id="status" class="form-control"
-                placeholder="pending">
-        </div>
-    </div> -->
-    <button class="btn btn-primary">Ok</button>
-
-</form>
-
-
-
+<!-- MODAL -->
 <div class="modal fade" id="roomModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
-            <div class="modal-header">
-                <h5 class="modal-title">Habitaciones disponibles</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title">
+                    <i class="bi bi-door-open"></i> Habitaciones disponibles
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
 
             <div class="modal-body">
-                <table class="table table-bordered">
-                    <thead>
+
+                <div class="search-type">
+                    Filtar por tipo:
+                    <select class="form-select" [(ngModel)]="tipoSeleccionado" name="tipo"
+                        aria-label="Default select example">
+                        <option value="">Todas</option>
+                        <option value="Individual">Individual</option>
+                        <option value="Doble">Doble</option>
+                        <option value="Suite">Suite</option>
+                        <option value="Familiar">Familiar</option>
+                    </select>
+
+                    <button type="button" class="btn btn-success" (click)="filtrarPorTipo()">
+                        Buscar
+                    </button>
+
+                    <button type="button" class="btn btn-secondary" (click)="limpiarFiltroTipo()">
+                        Limpiar
+                    </button>
+                </div>
+
+                <table class="table table-hover align-middle">
+                    <thead class="table-dark">
                         <tr>
                             <th>#</th>
                             <th>Número</th>
                             <th>Tipo</th>
                             <th>Precio</th>
-                            <th>Acción</th>
+                            <th>Descripcion</th>
+                            <th></th>
                         </tr>
                     </thead>
 
@@ -109,15 +143,18 @@
                             <td>{{ room.idRoom }}</td>
                             <td>{{ room.roomNumber }}</td>
                             <td>{{ room.type }}</td>
-                            <td>{{ room.pricePerNight }}</td>
+                            <td class="precio">${{ room.pricePerNight }}</td>
+                            <td>{{ room.description }}</td>
                             <td>
-                                <button class="btn btn-success" (click)="seleccionarRoom(room)">
-                                    Seleccionar
+                                <button type="button" class="btn btn-sm btn-success" (click)="seleccionarRoom(room)">
+                                    <i class="bi bi-check"></i>
                                 </button>
                             </td>
                         </tr>
                     </tbody>
+
                 </table>
+
             </div>
 
         </div>

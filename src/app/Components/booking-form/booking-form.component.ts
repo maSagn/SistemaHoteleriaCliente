@@ -28,9 +28,9 @@ export class BookingFormComponent {
     private roomService: RoomService
   ) { }
 
-fechaMinima: string = '';
-minCheckOut: string = '';
-maxCheckOut: string = '';
+  fechaMinima: string = '';
+  minCheckOut: string = '';
+  maxCheckOut: string = '';
 
   ngOnInit(): void {
     this.fechaMinima = this.obtenerFechaHoy();
@@ -49,20 +49,20 @@ maxCheckOut: string = '';
       })
     }, { validators: this.validarFechas.bind(this) });
     this.bookigForm.get('checkIn')?.valueChanges.subscribe(value => {
-    if (value) {
-      const fecha = new Date(value);
+      if (value) {
+        const fecha = new Date(value);
 
-      // mínimo: siguiente día
-      const min = new Date(fecha);
-      min.setDate(min.getDate() + 1);
+        // mínimo: siguiente día
+        const min = new Date(fecha);
+        min.setDate(min.getDate() + 1);
 
-      // máximo: 30 días después
-      const max = new Date(fecha);
-      max.setDate(max.getDate() + 30);
+        // máximo: 30 días después
+        const max = new Date(fecha);
+        max.setDate(max.getDate() + 30);
 
-      this.minCheckOut = this.formatearFecha(min);
-      this.maxCheckOut = this.formatearFecha(max);
-    }
+        this.minCheckOut = this.formatearFecha(min);
+        this.maxCheckOut = this.formatearFecha(max);
+      }
     });
 
     // Revisar si hay un id en la ruta
@@ -156,36 +156,57 @@ maxCheckOut: string = '';
   }
 
   mayorQueCheckIn(control: AbstractControl): ValidationErrors | null {
-  const checkIn = control.get('checkIn')?.value;
-  const checkOut = control.get('checkOut')?.value;
+    const checkIn = control.get('checkIn')?.value;
+    const checkOut = control.get('checkOut')?.value;
 
-  if (!checkIn || !checkOut) return null;
+    if (!checkIn || !checkOut) return null;
 
-  const fechaIn = new Date(checkIn);
-  const fechaOut = new Date(checkOut);
+    const fechaIn = new Date(checkIn);
+    const fechaOut = new Date(checkOut);
 
-  return fechaOut <= fechaIn ? { fechaInvalida: true } : null;
-}
+    return fechaOut <= fechaIn ? { fechaInvalida: true } : null;
+  }
 
-maximo30Dias(control: AbstractControl): ValidationErrors | null {
-  const checkIn = control.get('checkIn')?.value;
-  const checkOut = control.get('checkOut')?.value;
+  maximo30Dias(control: AbstractControl): ValidationErrors | null {
+    const checkIn = control.get('checkIn')?.value;
+    const checkOut = control.get('checkOut')?.value;
 
-  if (!checkIn || !checkOut) return null;
+    if (!checkIn || !checkOut) return null;
 
-  const fechaIn = new Date(checkIn);
-  const fechaOut = new Date(checkOut);
+    const fechaIn = new Date(checkIn);
+    const fechaOut = new Date(checkOut);
 
-  const dias = (fechaOut.getTime() - fechaIn.getTime()) / (1000 * 60 * 60 * 24);
+    const dias = (fechaOut.getTime() - fechaIn.getTime()) / (1000 * 60 * 60 * 24);
 
-  return dias > 30 ? { maxDias: true } : null;
-}
+    return dias > 30 ? { maxDias: true } : null;
+  }
 
-validarFechas(control: AbstractControl): ValidationErrors | null {
-  return {
-    ...this.mayorQueCheckIn(control),
-    ...this.maximo30Dias(control)
-  };
-}
+  validarFechas(control: AbstractControl): ValidationErrors | null {
+    return {
+      ...this.mayorQueCheckIn(control),
+      ...this.maximo30Dias(control)
+    };
+  }
+
+  tipoSeleccionado: string = '';
+
+  filtrarPorTipo() {
+    if (!this.tipoSeleccionado) {
+      this.roomService.getAvailableRooms().subscribe(data => {
+        this.rooms = data;
+      });
+    } else {
+      this.roomService.getAvailableRoomsPerType(this.tipoSeleccionado).subscribe(data => {
+        this.rooms = data;
+      });
+    }
+  }
+
+  limpiarFiltroTipo() {
+    this.tipoSeleccionado = '';
+    this.roomService.getAvailableRooms().subscribe(data => {
+      this.rooms = data;
+    })
+  }
 
 }

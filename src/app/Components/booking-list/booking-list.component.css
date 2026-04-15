@@ -1,0 +1,174 @@
+/* Fondo */
+.fondo-hotel {
+    background: linear-gradient(135deg, #f5f7fa, #e4ecf5);
+    min-height: 100vh;
+}
+
+/* Header */
+.header-hotel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.titulo {
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.subtitulo {
+    color: #7f8c8d;
+}
+
+/* Botones */
+.btn-hotel {
+    background: #1abc9c;
+    color: white;
+    border-radius: 8px;
+}
+
+.btn-hotel:hover {
+    background: #16a085;
+}
+
+.btn-outline-hotel {
+    border: 1px solid #1abc9c;
+    color: #1abc9c;
+}
+
+.btn-outline-hotel:hover {
+    background: #1abc9c;
+    color: white;
+}
+
+/* Card */
+.hotel-card {
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Tabla */
+.tabla-pro thead {
+    background: #2c3e50;
+    color: white;
+}
+
+.tabla-pro tbody tr {
+    transition: all 0.25s ease;
+}
+
+.tabla-pro tbody tr:hover {
+    background: #f8fbff;
+    transform: scale(1.01);
+}
+
+/* Botones icon */
+.btn-icon {
+    border-radius: 6px;
+    margin-right: 5px;
+    padding: 6px 10px;
+}
+
+.edit {
+    background: #f1c40f;
+    color: white;
+}
+
+.delete {
+    background: #e74c3c;
+    color: white;
+}
+
+/* Habitación */
+.habitacion-badge {
+    background: #ecf0f1;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/* Precio */
+.precio {
+    font-weight: bold;
+    color: #27ae60;
+}
+
+/* Estado */
+.estado {
+    font-weight: 500;
+}
+
+.disponible {
+    color: #2ecc71;
+}
+
+.ocupado {
+    color: #e74c3c;
+}
+
+/* Descripción */
+.descripcion {
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Mobile cards */
+.room-card {
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header-hotel {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .titulo {
+        font-size: 20px;
+    }
+}
+
+
+
+
+
+
+
+/* Estados de reserva */
+.confirmado {
+  color: #2ecc71;
+  font-weight: 600;
+}
+
+.pendiente {
+  color: #f39c12;
+  font-weight: 600;
+}
+
+.cancelado {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+/* Botón ver */
+.view {
+  background: #3498db;
+  color: white;
+}
+
+/* Correo */
+.correo {
+  font-size: 13px;
+  color: #555;
+}
+
+/* Card móvil */
+.booking-card {
+  border-radius: 14px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}

@@ -34,4 +34,10 @@ export class BookingService {
   cancelBooking(idBooking: number): Observable<void> {
     return this.http.put<void>(`${this.url}/${idBooking}/cancel`, {});
   }
+
+  getByGuestEmail(email: string): Observable<BookingModel[]> {
+    return this.http.get<Result<BookingModel[]>>(`${this.url}/email/${email}`).pipe(
+      map(response => response.object)
+    );
+  }
 }

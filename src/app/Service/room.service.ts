@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { RoomModel } from '../Models/RoomModel';
@@ -45,5 +45,24 @@ export class RoomService {
     return this.http.get<Result<RoomModel[]>>(`${this.url}/availableRooms`).pipe(
       map(response => response.object)
     );
+  }
+
+  getAvailableRoomsPerType(type: string): Observable<RoomModel[]> {
+    const params = new HttpParams().set('type', type);
+
+    return this.http.get<Result<RoomModel[]>>(`${this.url}/available`, { params }).pipe(
+      map(response => response.object)
+    );
+  }
+
+  getByFilters(tipo: string, disponible: boolean | null) {
+    let params: any = {};
+
+    if (tipo) params.tipo = tipo;
+    if (disponible !== null) params.disponible = disponible;
+
+    return this.http.get<Result<RoomModel[]>>(`${this.url}/filter`, { params }).pipe(
+      map(response => response.object)
+    )
   }
 }

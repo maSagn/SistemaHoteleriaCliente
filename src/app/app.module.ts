@@ -7,7 +7,7 @@ import { RoomListComponent } from './Components/room-list/room-list.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { RoomFormComponent } from './Components/room-form/room-form.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { BookingListComponent } from './Components/booking-list/booking-list.component';
 import { BookingFormComponent } from './Components/booking-form/booking-form.component';
@@ -26,7 +26,8 @@ import { BookingFormComponent } from './Components/booking-form/booking-form.com
     CommonModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
