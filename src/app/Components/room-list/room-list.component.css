@@ -136,3 +136,63 @@
         font-size: 20px;
     }
 }
+
+/* =========================
+   FILTROS EN LÍNEA
+========================= */
+.filtros-inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 15px;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* ITEM */
+.filtro-item {
+    display: flex;
+    flex-direction: column;
+    min-width: 160px;
+}
+
+/* EMAIL más grande */
+.filtro-email {
+    min-width: 260px;
+    flex: 1;
+}
+
+/* LABEL */
+.filtro-item label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+/* INPUTS */
+.filtro-item input,
+.filtro-item select {
+    border-radius: 8px;
+    border: 1px solid #dcdfe3;
+    transition: all 0.2s ease;
+}
+
+.filtro-item input:focus,
+.filtro-item select:focus {
+    border-color: #1abc9c;
+    box-shadow: 0 0 0 2px rgba(26, 188, 156, 0.15);
+}
+
+/* BOTONES EN LÍNEA */
+.btn-group-inline {
+    flex-direction: row;
+    display: flex;
+    gap: 8px;
+}
+
+.btn-group-inline .btn {
+    height: 38px;
+}

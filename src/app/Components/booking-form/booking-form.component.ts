@@ -45,7 +45,8 @@ export class BookingFormComponent {
       status: [''],
       room: this.fb.group({
         roomNumber: [''],
-        idRoom: ['']
+        idRoom: [''],
+        pricePerNight: ['']
       })
     }, { validators: this.validarFechas.bind(this) });
     this.bookigForm.get('checkIn')?.valueChanges.subscribe(value => {
@@ -63,6 +64,12 @@ export class BookingFormComponent {
         this.minCheckOut = this.formatearFecha(min);
         this.maxCheckOut = this.formatearFecha(max);
       }
+
+      this.calcularTotal();
+    });
+
+    this.bookigForm.get('checkOut')?.valueChanges.subscribe(() => {
+      this.calcularTotal();
     });
 
     // Revisar si hay un id en la ruta
@@ -80,7 +87,8 @@ export class BookingFormComponent {
           status: booking.status,
           room: {
             roomNumber: booking.room.roomNumber,
-            idRoom: booking.room.idRoom
+            idRoom: booking.room.idRoom,
+            pricePerNight: booking.room.pricePerNight
           }
         });
       });
@@ -113,9 +121,12 @@ export class BookingFormComponent {
     this.bookigForm.patchValue({
       room: {
         roomNumber: room.roomNumber,
-        idRoom: room.idRoom
+        idRoom: room.idRoom,
+        pricePerNight: room.pricePerNight
       }
     });
+
+    this.calcularTotal();
 
     // Cerrar modal
     const modal = (window as any).bootstrap.Modal.getInstance(
@@ -207,6 +218,28 @@ export class BookingFormComponent {
     this.roomService.getAvailableRooms().subscribe(data => {
       this.rooms = data;
     })
+  }
+
+  calcularTotal() {
+    const checkIn = this.bookigForm.get('checkIn')?.value;
+    const checkOut = this.bookigForm.get('checkOut')?.value;
+    const precio = Number(this.bookigForm.get('room.pricePerNight')?.value);
+
+    if (checkIn && checkOut && precio) {
+      const fecha1 = new Date(checkIn);
+      const fecha2 = new Date(checkOut);
+
+      const diferencia = fecha2.getTime() - fecha1.getTime();
+      const noches = diferencia / (1000 * 60 * 60 * 24);
+
+      if (noches > 0) {
+        const total = noches * precio;
+
+        this.bookigForm.patchValue({
+          totalPrice: total
+        });
+      }
+    }
   }
 
 }

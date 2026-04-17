@@ -83,4 +83,18 @@ export class BookingListComponent {
     this.cargarBookings();
   }
 
+  statusSeleccionado: string = '';
+
+  filtrarPorStatus() {
+    this.bookings = [];
+    this.bookingService.getByStatus(this.statusSeleccionado).subscribe(data => {
+      this.bookings = data;
+    });
+  }
+
+  limpiarFiltro() {
+    this.statusSeleccionado = '';
+    this.cargarBookings();
+  }
+
 }

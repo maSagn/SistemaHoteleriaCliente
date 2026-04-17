@@ -2,41 +2,62 @@
 
   <!-- HEADER -->
   <div class="header-hotel mb-4">
-    <div>
+    <div class="header-left">
       <h2 class="titulo">
         <i class="bi bi-calendar-check"></i> Reservas
       </h2>
       <p class="subtitulo">Gestión de reservas del hotel</p>
     </div>
 
-    <a [routerLink]="['/booking']" class="btn btn-hotel">
-      <i class="bi bi-plus-lg"></i> Nueva reserva
-    </a>
+    <div class="header-right">
+      <a [routerLink]="['/booking']" class="btn btn-hotel">
+        <i class="bi bi-plus-lg"></i> Nueva reserva
+      </a>
+    </div>
+  </div>
 
-    <br>
+  <!-- FILTROS -->
+  <div class="filtros-inline mb-4">
 
-    <div class="search-email mb-3">
-      <div class="row align-items-end">
+    <!-- STATUS -->
+    <div class="filtro-item">
+      <label>Estado</label>
+      <select class="form-select" [(ngModel)]="statusSeleccionado">
+        <option value="">Todas</option>
+        <option value="Confirmed">Confirmadas</option>
+        <option value="Cancelled">Canceladas</option>
+      </select>
+    </div>
 
-        <div class="col-md-6">
-          <label>Buscar por email:</label>
-          <input type="email" class="form-control" [(ngModel)]="emailBusqueda" name="email"
-            placeholder="someone@example.com">
-        </div>
+    <!-- BOTONES STATUS -->
+    <div class="filtro-item btn-group-inline">
+      <button type="button" class="btn btn-success" (click)="filtrarPorStatus()">
+        Buscar
+      </button>
 
-        <div class="col-md-2">
-          <button type="button" class="btn btn-success w-100" (click)="buscarPorEmail()">
-            Buscar
-          </button>
-        </div>
+      <button type="button" class="btn btn-secondary" (click)="limpiarFiltro()">
+        Limpiar
+      </button>
+    </div>
 
-        <div class="col-md-2">
-          <button type="button" class="btn btn-secondary w-100" (click)="limpiarBusqueda()">
-            Limpiar
-          </button>
-        </div>
+    <!-- EMAIL -->
+    <div class="filtro-item filtro-email">
+      <label>Email</label>
+      <input type="email" class="form-control" [(ngModel)]="emailBusqueda" name="email"
+        placeholder="someone@example.com">
+    </div>
 
-      </div>
+
+
+    <!-- BOTONES EMAIL -->
+    <div class="filtro-item btn-group-inline">
+      <button type="button" class="btn btn-success" (click)="buscarPorEmail()">
+        Buscar
+      </button>
+
+      <button type="button" class="btn btn-secondary" (click)="limpiarBusqueda()">
+        Limpiar
+      </button>
     </div>
 
   </div>
@@ -44,8 +65,8 @@
   <!-- TABLA DESKTOP -->
   <div class="card hotel-card d-none d-md-block">
     <div class="table-responsive">
-
       <table class="table tabla-pro align-middle">
+
         <thead>
           <tr>
             <th></th>
@@ -64,7 +85,6 @@
           @for (booking of bookings; track booking.idBooking) {
           <tr>
 
-            <!-- ACCIONES -->
             <td>
               <a [routerLink]="['/booking', booking.idBooking]" class="btn btn-icon view">
                 <i class="bi bi-eye"></i>
@@ -106,10 +126,10 @@
 
             <td>
               <span class="estado" [ngClass]="{
-                  'confirmado': booking.status === 'Confirmed',
-                  'pendiente': booking.status === 'Pending',
-                  'cancelado': booking.status === 'Cancelled'
-                }">
+                'confirmado': booking.status === 'Confirmed',
+                'pendiente': booking.status === 'Pending',
+                'cancelado': booking.status === 'Cancelled'
+              }">
                 {{ booking.status }}
               </span>
             </td>
@@ -119,16 +139,13 @@
         </tbody>
 
       </table>
-
     </div>
   </div>
 
-  <!-- CARDS MOBILE -->
+  <!-- MOBILE -->
   <div class="d-md-none">
-
     @for (booking of bookings; track booking.idBooking) {
     <div class="card booking-card mb-3">
-
       <div class="card-body">
 
         <div class="d-flex justify-content-between align-items-center mb-2">
@@ -138,10 +155,10 @@
           </h5>
 
           <span class="estado" [ngClass]="{
-              'confirmado': booking.status === 'Confirmed',
-              'pendiente': booking.status === 'Pending',
-              'cancelado': booking.status === 'Cancelled'
-            }">
+            'confirmado': booking.status === 'Confirmed',
+            'pendiente': booking.status === 'Pending',
+            'cancelado': booking.status === 'Cancelled'
+          }">
             {{ booking.status }}
           </span>
         </div>
@@ -149,15 +166,8 @@
         <p><i class="bi bi-person"></i> {{ booking.guestName }}</p>
         <p><i class="bi bi-envelope"></i> {{ booking.guestEmail }}</p>
 
-        <p>
-          <i class="bi bi-calendar"></i>
-          {{ booking.checkIn | date:'dd MMM yyyy' }}
-        </p>
-
-        <p>
-          <i class="bi bi-calendar2"></i>
-          {{ booking.checkOut | date:'dd MMM yyyy' }}
-        </p>
+        <p><i class="bi bi-calendar"></i> {{ booking.checkIn | date:'dd MMM yyyy' }}</p>
+        <p><i class="bi bi-calendar2"></i> {{ booking.checkOut | date:'dd MMM yyyy' }}</p>
 
         <p class="precio">
           <i class="bi bi-cash"></i> ${{ booking.totalPrice }}
@@ -176,7 +186,6 @@
       </div>
     </div>
     }
-
   </div>
 
 </div>

@@ -1,15 +1,24 @@
-/* Fondo */
+/* =========================
+   FONDO
+========================= */
 .fondo-hotel {
     background: linear-gradient(135deg, #f5f7fa, #e4ecf5);
     min-height: 100vh;
 }
 
-/* Header */
+/* =========================
+   HEADER
+========================= */
 .header-hotel {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
 }
 
 .titulo {
@@ -21,7 +30,9 @@
     color: #7f8c8d;
 }
 
-/* Botones */
+/* =========================
+   BOTONES
+========================= */
 .btn-hotel {
     background: #1abc9c;
     color: white;
@@ -32,23 +43,86 @@
     background: #16a085;
 }
 
-.btn-outline-hotel {
-    border: 1px solid #1abc9c;
-    color: #1abc9c;
+.btn-secondary {
+    background: #bdc3c7;
+    border: none;
 }
 
-.btn-outline-hotel:hover {
-    background: #1abc9c;
-    color: white;
+.btn-secondary:hover {
+    background: #95a5a6;
 }
 
-/* Card */
+/* =========================
+   FILTROS EN LÍNEA
+========================= */
+.filtros-inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 15px;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* ITEM */
+.filtro-item {
+    display: flex;
+    flex-direction: column;
+    min-width: 160px;
+}
+
+/* EMAIL más grande */
+.filtro-email {
+    min-width: 260px;
+    flex: 1;
+}
+
+/* LABEL */
+.filtro-item label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+/* INPUTS */
+.filtro-item input,
+.filtro-item select {
+    border-radius: 8px;
+    border: 1px solid #dcdfe3;
+    transition: all 0.2s ease;
+}
+
+.filtro-item input:focus,
+.filtro-item select:focus {
+    border-color: #1abc9c;
+    box-shadow: 0 0 0 2px rgba(26, 188, 156, 0.15);
+}
+
+/* BOTONES EN LÍNEA */
+.btn-group-inline {
+    flex-direction: row;
+    display: flex;
+    gap: 8px;
+}
+
+.btn-group-inline .btn {
+    height: 38px;
+}
+
+/* =========================
+   CARD TABLA
+========================= */
 .hotel-card {
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
-/* Tabla */
+/* =========================
+   TABLA
+========================= */
 .tabla-pro thead {
     background: #2c3e50;
     color: white;
@@ -63,15 +137,17 @@
     transform: scale(1.01);
 }
 
-/* Botones icon */
+/* =========================
+   BOTONES ICONO
+========================= */
 .btn-icon {
     border-radius: 6px;
     margin-right: 5px;
     padding: 6px 10px;
 }
 
-.edit {
-    background: #f1c40f;
+.view {
+    background: #3498db;
     color: white;
 }
 
@@ -80,7 +156,9 @@
     color: white;
 }
 
-/* Habitación */
+/* =========================
+   BADGES Y TEXTOS
+========================= */
 .habitacion-badge {
     background: #ecf0f1;
     padding: 6px 10px;
@@ -88,87 +166,70 @@
     font-weight: 600;
 }
 
-/* Precio */
 .precio {
     font-weight: bold;
     color: #27ae60;
 }
 
-/* Estado */
-.estado {
-    font-weight: 500;
+.correo {
+    font-size: 13px;
+    color: #555;
 }
 
-.disponible {
+/* =========================
+   ESTADOS
+========================= */
+.confirmado {
     color: #2ecc71;
+    font-weight: 600;
 }
 
-.ocupado {
+.pendiente {
+    color: #f39c12;
+    font-weight: 600;
+}
+
+.cancelado {
     color: #e74c3c;
+    font-weight: 600;
 }
 
-/* Descripción */
-.descripcion {
-    max-width: 220px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Mobile cards */
-.room-card {
+/* =========================
+   MOBILE CARDS
+========================= */
+.booking-card {
     border-radius: 14px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Responsive */
+/* =========================
+   RESPONSIVE
+========================= */
 @media (max-width: 768px) {
+
     .header-hotel {
         flex-direction: column;
         align-items: flex-start;
-        gap: 10px;
     }
 
-    .titulo {
-        font-size: 20px;
+    .header-hotel .btn {
+        width: 100%;
     }
-}
 
+    .filtros-inline {
+        flex-direction: column;
+        align-items: stretch;
+    }
 
+    .filtro-item {
+        width: 100%;
+    }
 
+    .btn-group-inline {
+        width: 100%;
+    }
 
-
-
-
-/* Estados de reserva */
-.confirmado {
-  color: #2ecc71;
-  font-weight: 600;
-}
-
-.pendiente {
-  color: #f39c12;
-  font-weight: 600;
-}
-
-.cancelado {
-  color: #e74c3c;
-  font-weight: 600;
-}
-
-/* Botón ver */
-.view {
-  background: #3498db;
-  color: white;
-}
-
-/* Correo */
-.correo {
-  font-size: 13px;
-  color: #555;
-}
-
-/* Card móvil */
-.booking-card {
-  border-radius: 14px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    .btn-group-inline .btn {
+        width: 100%;
+    }
 }

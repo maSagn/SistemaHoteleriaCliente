@@ -40,4 +40,10 @@ export class BookingService {
       map(response => response.object)
     );
   }
+
+  getByStatus(status: string): Observable<BookingModel[]> {
+    return this.http.get<Result<BookingModel[]>>(`${this.url}/status/${status}`).pipe(
+      map(response => response.object)
+    );
+  }
 }

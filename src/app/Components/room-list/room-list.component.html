@@ -22,40 +22,39 @@
         </div>
     </div>
 
-    <br>
-    <div class="filter">
-        <div class="row">
-            <div class="col-md-3">
-                Tipo:
-                <select class="form-select" [(ngModel)]="tipoSeleccionado" name="tipo" aria-label="Default select example">
-                    <option value="">Todas</option>
-                    <option value="Individual">Individual</option>
-                    <option value="Doble">Doble</option>
-                    <option value="Suite">Suite</option>
-                    <option value="Familiar">Familiar</option>
-                </select>
-            </div>
+    <div class="filtros-inline mb-4">
+        <div class="filtro-item">
+            Tipo:
+            <select class="form-select" [(ngModel)]="tipoSeleccionado" name="tipo" aria-label="Default select example">
+                <option value="">Todas</option>
+                <option value="Individual">Individual</option>
+                <option value="Doble">Doble</option>
+                <option value="Suite">Suite</option>
+                <option value="Familiar">Familiar</option>
+            </select>
+        </div>
 
-            <div class="col-md-3">
-                Disponibilidad
-                <select class="form-select" [(ngModel)]="disponibleSeleccionado" name="disponible" aria-label="Default select example">
-                    <option [ngValue]="null">Todas</option>
-                    <option [ngValue]="true">Disponible</option>
-                    <option [ngValue]="false">Ocupada</option>
-                </select>
-            </div>
+        <div class="filtro-item">
+            Disponibilidad:
+            <select class="form-select" [(ngModel)]="disponibleSeleccionado" name="disponible"
+                aria-label="Default select example">
+                <option [ngValue]="null">Todas</option>
+                <option [ngValue]="true">Disponible</option>
+                <option [ngValue]="false">Ocupada</option>
+            </select>
+        </div>
 
-            <div class="col-md-2">
-                <button type="button" class="btn btn-success" (click)="filtrar()">
-                    Buscar
-                </button>
+        <div class="filtro-item btn-group-inline">
+            <button type="button" class="btn btn-success" (click)="filtrar()">
+                Buscar
+            </button>
 
-                <button type="button" class="btn btn-secondary" (click)="limpiarFiltro()">
-                    Limpiar
-                </button>
-            </div>
+            <button type="button" class="btn btn-secondary" (click)="limpiarFiltro()">
+                Limpiar
+            </button>
         </div>
     </div>
+
 
     <!-- TABLA DESKTOP -->
     <div class="card hotel-card d-none d-md-block">
