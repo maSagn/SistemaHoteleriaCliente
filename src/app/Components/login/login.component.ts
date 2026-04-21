@@ -35,7 +35,7 @@ export class LoginComponent {
         if (role === 'Administrador') {
           this.router.navigate(['rooms']);
         } else if (role === 'Usuario') {
-          this.router.navigate(['rooms'])
+          this.router.navigate(['bookings'])
         }
       },
       error: (err) => {

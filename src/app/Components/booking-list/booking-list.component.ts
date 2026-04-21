@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { BookingModel } from '../../Models/BookingModel';
 import { BookingService } from '../../Service/booking.service';
+import { AuthService } from '../../Service/auth.service';
 
 // Sweet alert (solo cuando se usa CDN)
 declare var Swal: any;
@@ -14,7 +15,10 @@ declare var Swal: any;
 export class BookingListComponent {
   bookings: BookingModel[] = [];
 
-  constructor(private bookingService: BookingService) { }
+  constructor(
+    private bookingService: BookingService,
+    public authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.cargarBookings();

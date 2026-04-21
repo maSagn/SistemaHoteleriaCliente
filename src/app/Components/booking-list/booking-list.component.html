@@ -10,9 +10,14 @@
     </div>
 
     <div class="header-right">
-      <a [routerLink]="['/booking']" class="btn btn-hotel">
-        <i class="bi bi-plus-lg"></i> Nueva reserva
-      </a>
+      <div class="acciones-header">
+        <a [routerLink]="['/booking']" class="btn btn-hotel">
+          <i class="bi bi-plus-lg"></i> Nueva reserva
+        </a>
+        <a [routerLink]="['/rooms']" class="btn btn-outline-hotel" *ngIf="authService.isAdmin()">
+          <i class="bi bi-building"></i> Habitaciones
+        </a>
+      </div>
     </div>
   </div>
 
@@ -41,16 +46,14 @@
     </div>
 
     <!-- EMAIL -->
-    <div class="filtro-item filtro-email">
+    <div class="filtro-item filtro-email" *ngIf="authService.isAdmin()">
       <label>Email</label>
       <input type="email" class="form-control" [(ngModel)]="emailBusqueda" name="email"
         placeholder="someone@example.com">
     </div>
 
-
-
     <!-- BOTONES EMAIL -->
-    <div class="filtro-item btn-group-inline">
+    <div class="filtro-item btn-group-inline" *ngIf="authService.isAdmin()">
       <button type="button" class="btn btn-success" (click)="buscarPorEmail()">
         Buscar
       </button>
@@ -104,10 +107,15 @@
               </span>
             </td>
 
-            <td>{{ booking.guestName }}</td>
+            <!-- <td>{{ booking.guestName }}</td> -->
+            <td>{{ booking.usuario.nombre }} {{ booking.usuario.apellidoPaterno }} {{ booking.usuario.apellidoMaterno }}
+            </td>
 
-            <td class="correo">
+            <!-- <td class="correo">
               {{ booking.guestEmail }}
+            </td> -->
+            <td class="correo">
+              {{ booking.usuario.email }}
             </td>
 
             <td>

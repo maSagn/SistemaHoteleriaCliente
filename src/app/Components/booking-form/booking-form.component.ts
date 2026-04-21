@@ -5,6 +5,7 @@ import { BookingService } from '../../Service/booking.service';
 import { RoomModel } from '../../Models/RoomModel';
 import { RoomService } from '../../Service/room.service';
 import { BookingModel } from '../../Models/BookingModel';
+import { AuthService } from '../../Service/auth.service';
 
 // Sweet alert (solo cuando se usa CDN)
 declare var Swal: any;
@@ -25,12 +26,14 @@ export class BookingFormComponent {
     private route: ActivatedRoute,
     private router: Router,
     private bookingService: BookingService,
-    private roomService: RoomService
+    private roomService: RoomService,
+    private authService: AuthService
   ) { }
 
   fechaMinima: string = '';
   minCheckOut: string = '';
   maxCheckOut: string = '';
+  
 
   ngOnInit(): void {
     this.fechaMinima = this.obtenerFechaHoy();
@@ -47,7 +50,10 @@ export class BookingFormComponent {
         roomNumber: [''],
         idRoom: [''],
         pricePerNight: ['']
-      })
+      }),
+      usuario: this.fb.group({
+        idUsuario: ['']
+      }),
     }, { validators: this.validarFechas.bind(this) });
     this.bookigForm.get('checkIn')?.valueChanges.subscribe(value => {
       if (value) {
@@ -139,6 +145,16 @@ export class BookingFormComponent {
 
   guardar() {
     if (this.bookigForm.valid) {
+
+      // Obtener al usuario logueado
+      const idUsuario = this.authService.getUserId();
+
+      this.bookigForm.patchValue({
+      usuario: {
+        idUsuario: idUsuario
+      }
+    });
+
       console.log("Form valido", this.bookigForm.value);
       const booking: BookingModel = this.bookigForm.value;
       console.log("fomulario enviado", booking);

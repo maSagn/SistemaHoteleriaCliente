@@ -43,6 +43,16 @@
     background: #16a085;
 }
 
+.btn-outline-hotel {
+    border: 1px solid #1abc9c;
+    color: #1abc9c;
+}
+
+.btn-outline-hotel:hover {
+    background: #1abc9c;
+    color: white;
+}
+
 .btn-secondary {
     background: #bdc3c7;
     border: none;

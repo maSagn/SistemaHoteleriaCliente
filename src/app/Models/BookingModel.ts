@@ -1,4 +1,5 @@
 import { RoomModel } from "./RoomModel";
+import { UsuarioModel } from "./UsuarioModel";
 
 export interface BookingModel {
     idBooking: number,
@@ -8,5 +9,6 @@ export interface BookingModel {
     checkOut: Date,
     totalPrice: number,
     status: string,
-    room: RoomModel
+    room: RoomModel,
+    usuario: UsuarioModel
 }
