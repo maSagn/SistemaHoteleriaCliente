@@ -32,10 +32,9 @@
                     <option value="Suite">Suite</option>
                     <option value="Familiar">Familiar</option>
                 </select>
-                <span class="error-msg"
-                        *ngIf="roomForm.get('type')?.touched && roomForm.get('type')?.invalid">
-                        Selecciona tipo de habitacion.
-                    </span>
+                <span class="error-msg" *ngIf="roomForm.get('type')?.touched && roomForm.get('type')?.invalid">
+                    Selecciona tipo de habitacion.
+                </span>
             </div>
 
             <!-- PRECIO + CAPACIDAD -->
@@ -51,7 +50,8 @@
 
                 <div class="col-md-6 form-group">
                     <label><i class="bi bi-people"></i> Máx. Hospedantes</label>
-                    <input type="number" min="1" max="10" formControlName="maxGuests" class="form-control" placeholder="10">
+                    <input type="number" min="1" max="10" formControlName="maxGuests" class="form-control"
+                        placeholder="10">
                     <span class="error-msg"
                         *ngIf="roomForm.get('maxGuests')?.touched && roomForm.get('maxGuests')?.invalid">
                         Solo se permiten numeros enteros positivos.
@@ -76,11 +76,19 @@
                 </span>
             </div>
 
-            <!-- BOTÓN -->
-            <div class="text-end mt-4">
-                <button class="btn btn-hotel">
-                    <i class="bi bi-check-lg"></i> Guardar
+            <div class="d-flex justify-content-between mt-4">
+
+                <!-- BOTÓN REGRESAR -->
+                <button type="button" class="btn btn-back mt-4" [routerLink]="['/rooms']">
+                    <i class="bi bi-arrow-left"></i> Regresar
                 </button>
+
+                <!-- BOTON GUARDAR -->
+                <div class="text-end mt-4">
+                    <button class="btn btn-hotel" [disabled]="roomForm.invalid">
+                        <i class="bi bi-check-lg"></i> Guardar
+                    </button>
+                </div>
             </div>
 
         </form>

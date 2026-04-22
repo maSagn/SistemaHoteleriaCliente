@@ -80,9 +80,11 @@ export class RoomListComponent {
   disponibleSeleccionado: boolean | null = null;
 
   filtrar() {
+    this.page = 0;
     this.rooms = [];
-    this.roomService.getByFilters(this.tipoSeleccionado, this.disponibleSeleccionado).subscribe(data => {
-      this.rooms = data;
+    this.roomService.getByFilters(this.tipoSeleccionado, this.disponibleSeleccionado, this.page, this.size).subscribe(res => {
+      this.rooms = res.data;
+      this.totalRecords = res.total;
     });
   }
 

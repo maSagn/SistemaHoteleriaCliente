@@ -58,14 +58,20 @@ export class RoomService {
     );
   }
 
-  getByFilters(tipo: string, disponible: boolean | null) {
-    let params: any = {};
+  getByFilters(tipo: string, disponible: boolean | null, page: number, size: number) {
+    let params: any = {
+      page: page,
+      size: size
+    };
 
     if (tipo) params.tipo = tipo;
     if (disponible !== null) params.disponible = disponible;
 
     return this.http.get<Result<RoomModel[]>>(`${this.url}/filter`, { params }).pipe(
-      map(response => response.object)
-    )
+      map(response => ({
+        data: response.object,
+        total: response.totalRecords
+      }))
+    );
   }
 }

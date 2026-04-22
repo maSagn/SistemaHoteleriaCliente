@@ -94,12 +94,20 @@
                 </span>
             </div>
 
-            <!-- BOTON -->
-            <div class="text-end mt-4" *ngIf="!idBooking">
-                <button class="btn btn-hotel" [disabled]="bookigForm.invalid">
-                    <i class="bi bi-check-lg"></i>
-                    Guardar
+            <div class="d-flex justify-content-between mt-4">
+
+                <!-- BOTÓN REGRESAR -->
+                <button type="button" class="btn btn-back mt-4" [routerLink]="['/bookings']">
+                    <i class="bi bi-arrow-left"></i> Regresar
                 </button>
+
+                <!-- BOTON GUARDAR -->
+                <div class="text-end mt-4" *ngIf="!idBooking">
+                    <button class="btn btn-hotel" [disabled]="bookigForm.invalid">
+                        <i class="bi bi-check-lg"></i>
+                        Guardar
+                    </button>
+                </div>
             </div>
 
         </form>

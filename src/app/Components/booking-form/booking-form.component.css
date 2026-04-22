@@ -60,6 +60,20 @@
     color: #1abc9c;
 }
 
+/* Botón regresar */
+.btn-back {
+    background: #ecf0f1;
+    color: #2c3e50;
+    border-radius: 10px;
+    padding: 10px 20px;
+    
+}
+
+.btn-back:hover {
+    background: #d0d7de;
+    transform: translateY(-1px);
+}
+
 /* Precio */
 .precio {
     font-weight: bold;
