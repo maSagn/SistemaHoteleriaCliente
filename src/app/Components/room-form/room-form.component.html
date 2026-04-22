@@ -16,6 +16,10 @@
             <div class="form-group">
                 <label><i class="bi bi-hash"></i> Número</label>
                 <input type="text" formControlName="roomNumber" class="form-control" placeholder="202A">
+                <span class="error-msg"
+                    *ngIf="roomForm.get('roomNumber')?.touched && roomForm.get('roomNumber')?.invalid">
+                    No se permiten los caracteres [!#$&/].
+                </span>
             </div>
 
             <!-- TIPO -->
@@ -28,18 +32,30 @@
                     <option value="Suite">Suite</option>
                     <option value="Familiar">Familiar</option>
                 </select>
+                <span class="error-msg"
+                        *ngIf="roomForm.get('type')?.touched && roomForm.get('type')?.invalid">
+                        Selecciona tipo de habitacion.
+                    </span>
             </div>
 
             <!-- PRECIO + CAPACIDAD -->
             <div class="row">
                 <div class="col-md form-group">
                     <label><i class="bi bi-cash"></i> Precio por noche</label>
-                    <input type="text" formControlName="pricePerNight" class="form-control" placeholder="800">
+                    <input type="number" min="1" formControlName="pricePerNight" class="form-control" placeholder="800">
+                    <span class="error-msg"
+                        *ngIf="roomForm.get('pricePerNight')?.touched && roomForm.get('pricePerNight')?.invalid">
+                        Solo se permiten cifras positivas.
+                    </span>
                 </div>
 
                 <div class="col-md-6 form-group">
                     <label><i class="bi bi-people"></i> Máx. Hospedantes</label>
-                    <input type="text" formControlName="maxGuests" class="form-control" placeholder="10">
+                    <input type="number" min="1" max="10" formControlName="maxGuests" class="form-control" placeholder="10">
+                    <span class="error-msg"
+                        *ngIf="roomForm.get('maxGuests')?.touched && roomForm.get('maxGuests')?.invalid">
+                        Solo se permiten numeros enteros positivos.
+                    </span>
                 </div>
             </div>
 
@@ -54,6 +70,10 @@
                 <label><i class="bi bi-card-text"></i> Descripción</label>
                 <textarea formControlName="description" class="form-control" rows="3"
                     placeholder="Ingresa descripcion"></textarea>
+                <span class="error-msg"
+                    *ngIf="roomForm.get('description')?.touched && roomForm.get('description')?.invalid">
+                    Campo requerido.
+                </span>
             </div>
 
             <!-- BOTÓN -->

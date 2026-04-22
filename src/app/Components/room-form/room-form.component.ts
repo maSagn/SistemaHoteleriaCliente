@@ -27,12 +27,12 @@ export class RoomFormComponent {
   ngOnInit(): void {
     this.roomForm = this.fb.group({
       idRoom: [''],
-      roomNumber: [''],
-      type: [''],
-      pricePerNight: [''],
+      roomNumber: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/)]],
+      type: ['', [Validators.required]],
+      pricePerNight: ['', [Validators.required, Validators.pattern(/^(?:0?\.[0-9]*[1-9][0-9]*|[1-9][0-9]*(?:\.[0-9]+)?)$/)]],
       isAvailable: [''],
-      maxGuests: [''],
-      description: ['']
+      maxGuests: ['', [Validators.required, Validators.pattern(/^[1-9]+$/)]],
+      description: ['', [Validators.required]]
     });
 
     // Revisar si hay un id en la ruta

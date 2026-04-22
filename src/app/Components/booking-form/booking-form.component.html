@@ -33,6 +33,10 @@
                     <div formGroupName="room" class="flex-grow-1">
                         <input type="text" formControlName="roomNumber" class="form-control" readonly
                             placeholder="Selecciona habitación">
+                        <span class="error-msg"
+                            *ngIf="bookigForm.get('room.idRoom')?.touched && bookigForm.get('room.idRoom')?.invalid">
+                            Selecciona una habitacion.
+                        </span>
                     </div>
 
                     <button type="button" class="btn btn-outline-hotel" (click)="abrirModal()">
@@ -54,12 +58,20 @@
                 <div class="col-md-6 form-group">
                     <label><i class="bi bi-calendar"></i> Check In</label>
                     <input type="date" formControlName="checkIn" [min]="fechaMinima" class="form-control">
+                    <span class="error-msg"
+                        *ngIf="bookigForm.get('checkIn')?.touched && bookigForm.get('checkIn')?.invalid">
+                        Campo requerido.
+                    </span>
                 </div>
 
                 <div class="col-md-6 form-group">
                     <label><i class="bi bi-calendar2"></i> Check Out</label>
                     <input type="date" formControlName="checkOut" [min]="minCheckOut" [max]="maxCheckOut"
                         class="form-control">
+                    <span class="error-msg"
+                        *ngIf="bookigForm.get('checkOut')?.touched && bookigForm.get('checkOut')?.invalid">
+                        Campo requerido.
+                    </span>
                 </div>
             </div>
 
@@ -76,6 +88,10 @@
             <div class="form-group">
                 <label><i class="bi bi-cash"></i> Total</label>
                 <input type="text" formControlName="totalPrice" class="form-control" placeholder="1300" readonly>
+                <span class="error-msg"
+                    *ngIf="bookigForm.get('totalPrice')?.touched && bookigForm.get('totalPrice')?.invalid">
+                    Campo requerido.
+                </span>
             </div>
 
             <!-- BOTON -->
@@ -108,25 +124,25 @@
 
                 <div class="filtros-inline d-flex justify-content-end">
                     <div class="filtro-item">
-                    Filtar por tipo:
-                    <select class="form-select" [(ngModel)]="tipoSeleccionado" name="tipo"
-                        aria-label="Default select example">
-                        <option value="">Todas</option>
-                        <option value="Individual">Individual</option>
-                        <option value="Doble">Doble</option>
-                        <option value="Suite">Suite</option>
-                        <option value="Familiar">Familiar</option>
-                    </select>
+                        Filtar por tipo:
+                        <select class="form-select" [(ngModel)]="tipoSeleccionado" name="tipo"
+                            aria-label="Default select example">
+                            <option value="">Todas</option>
+                            <option value="Individual">Individual</option>
+                            <option value="Doble">Doble</option>
+                            <option value="Suite">Suite</option>
+                            <option value="Familiar">Familiar</option>
+                        </select>
                     </div>
 
                     <div class="filtro-item btn-group-inline">
-                    <button type="button" class="btn btn-success" (click)="filtrarPorTipo()">
-                        Buscar
-                    </button>
+                        <button type="button" class="btn btn-success" (click)="filtrarPorTipo()">
+                            Buscar
+                        </button>
 
-                    <button type="button" class="btn btn-secondary" (click)="limpiarFiltroTipo()">
-                        Limpiar
-                    </button>
+                        <button type="button" class="btn btn-secondary" (click)="limpiarFiltroTipo()">
+                            Limpiar
+                        </button>
                     </div>
                 </div>
 

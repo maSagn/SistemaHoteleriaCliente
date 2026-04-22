@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookingService } from '../../Service/booking.service';
 import { RoomModel } from '../../Models/RoomModel';
@@ -42,13 +42,13 @@ export class BookingFormComponent {
       idBooking: [''],
       guestName: [''],
       guestEmail: [''],
-      checkIn: [''],
-      checkOut: [''],
-      totalPrice: [''],
+      checkIn: ['', [Validators.required]],
+      checkOut: ['', [Validators.required]],
+      totalPrice: ['', [Validators.required]],
       status: [''],
       room: this.fb.group({
         roomNumber: [''],
-        idRoom: [''],
+        idRoom: ['', [Validators.required]],
         pricePerNight: ['']
       }),
       usuario: this.fb.group({
