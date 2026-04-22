@@ -6,14 +6,17 @@ import { BookingListComponent } from './Components/booking-list/booking-list.com
 import { BookingFormComponent } from './Components/booking-form/booking-form.component';
 import { LoginComponent } from './Components/login/login.component';
 import { authGuard } from './Guards/auth.guard';
+import { AccessDeniedComponent } from './Components/access-denied/access-denied.component';
+import { functionalGuard } from './Guards/functional.guard';
 
 const routes: Routes = [
-  { path: 'rooms', component: RoomListComponent, canActivate: [authGuard] },
-  { path: 'room', component: RoomFormComponent },
-  { path: 'room/:id', component: RoomFormComponent },
-  { path: 'bookings', component: BookingListComponent },
-  { path: 'booking', component: BookingFormComponent},
-  { path: 'booking/:id', component: BookingFormComponent },
+  { path: 'rooms', component: RoomListComponent, canActivate: [authGuard, functionalGuard], },
+  { path: 'room', component: RoomFormComponent, canActivate: [authGuard] },
+  { path: 'room/:id', component: RoomFormComponent, canActivate: [authGuard] },
+  { path: 'bookings', component: BookingListComponent, canActivate: [authGuard] },
+  { path: 'booking', component: BookingFormComponent, canActivate: [authGuard]},
+  { path: 'booking/:id', component: BookingFormComponent, canActivate: [authGuard] },
+  { path: '403', component: AccessDeniedComponent },
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }

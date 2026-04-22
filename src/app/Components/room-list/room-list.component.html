@@ -175,4 +175,18 @@
 
     </div>
 
+    <div class="paginador">
+        <button (click)="cambiarPagina(page - 1)" [disabled]="page === 0">
+            Anterior
+        </button>
+
+        <span class="pagina-actual">Página {{ page + 1 }}</span>
+
+        <button (click)="cambiarPagina(page + 1)" [disabled]="(page + 1) * size >= totalRecords">
+            Siguiente
+        </button>
+
+        <span class="total-paginas">{{ page + 1 }} / {{ totalPages }}</span>
+    </div>
+
 </div>

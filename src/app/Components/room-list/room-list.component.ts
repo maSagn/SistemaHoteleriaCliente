@@ -13,6 +13,10 @@ declare var Swal: any;
 })
 export class RoomListComponent {
   rooms: RoomModel[] = [];
+  totalRecords: number = 0;
+
+  page: number = 0;
+  size = 10;
 
   constructor(private roomService: RoomService) { }
 
@@ -22,15 +26,21 @@ export class RoomListComponent {
   }
 
   cargarRooms() {
-    this.roomService.getAll().subscribe(
-      data => {
-        this.rooms = data;
-        console.log("Habitaciones cargadas", data);
-      },
-      error => {
-        console.log("Error al obtener las habitaciones");
+    this.roomService.getAll(this.page, this.size).subscribe(res => {
+      this.rooms = res.data;
+      this.totalRecords = res.total;
+      console.log("Habitaciones cargadas", res.data);
+      
+    });
+  }
 
-      });
+  cambiarPagina(nuevaPagina: number) {
+    this.page = nuevaPagina;
+    this.cargarRooms();
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.totalRecords / this.size);
   }
 
   eliminar(idRoom: number) {

@@ -13,9 +13,12 @@ export class RoomService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<RoomModel[]> {
-    return this.http.get<Result<RoomModel[]>>(this.url).pipe(
-      map(response => response.object)
+  getAll(page: number, size: number): Observable<{ data: RoomModel[]; total: number}> {
+    return this.http.get<Result<RoomModel[]>>(`${this.url}?page=${page}&size=${size}`).pipe(
+      map(response => ({
+        data: response.object,
+        total: response.totalRecords
+      }))
     );
   }
 

@@ -196,3 +196,44 @@
 .btn-group-inline .btn {
     height: 38px;
 }
+
+/* PAGINADOR */
+.paginador {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.paginador button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.paginador button:hover:not(:disabled) {
+    background-color: #1e40af;
+    transform: translateY(-1px);
+}
+
+.paginador button:disabled {
+    background-color: #cbd5e1;
+    cursor: not-allowed;
+}
+
+.pagina-actual {
+    font-weight: bold;
+    color: #1e293b;
+}
+
+.total-paginas {
+    color: #64748b;
+    font-size: 14px;
+}

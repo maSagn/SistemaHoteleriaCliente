@@ -4,6 +4,7 @@ export class Result<T> {
     ex: any;
     object: T;
     objects: T[] | null;
+    totalRecords: number;
 
     constructor() {
         this.correct = false;
@@ -11,5 +12,6 @@ export class Result<T> {
         this.ex = null;
         this.object = {} as T; // Iniciamos el objeto genérico con un valor vacío
         this.objects = null;
+        this.totalRecords = 0;
     }
 }

@@ -13,6 +13,7 @@ import { BookingListComponent } from './Components/booking-list/booking-list.com
 import { BookingFormComponent } from './Components/booking-form/booking-form.component';
 import { LoginComponent } from './Components/login/login.component';
 import { authInterceptor } from './Interceptors/auth.interceptor';
+import { AccessDeniedComponent } from './Components/access-denied/access-denied.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { authInterceptor } from './Interceptors/auth.interceptor';
     RoomFormComponent,
     BookingListComponent,
     BookingFormComponent,
-    LoginComponent
+    LoginComponent,
+    AccessDeniedComponent
   ],
   imports: [
     BrowserModule,
