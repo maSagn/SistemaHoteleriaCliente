@@ -30,13 +30,22 @@ export class RoomListComponent {
       this.rooms = res.data;
       this.totalRecords = res.total;
       console.log("Habitaciones cargadas", res.data);
-      
+
     });
+  }
+
+  filtroActivo(): boolean {
+    return !!this.tipoSeleccionado || this.disponibleSeleccionado !== null;
   }
 
   cambiarPagina(nuevaPagina: number) {
     this.page = nuevaPagina;
-    this.cargarRooms();
+
+    if (this.filtroActivo()) {
+      this.cargarFiltrado();
+    } else {
+      this.cargarRooms();
+    }
   }
 
   get totalPages(): number {
@@ -79,6 +88,7 @@ export class RoomListComponent {
   tipoSeleccionado: string = '';
   disponibleSeleccionado: boolean | null = null;
 
+  // Inicia un nuevo filtro (resetea la pagina)
   filtrar() {
     this.page = 0;
     this.rooms = [];
@@ -88,9 +98,24 @@ export class RoomListComponent {
     });
   }
 
+
   limpiarFiltro() {
     this.tipoSeleccionado = '';
     this.disponibleSeleccionado = null;
+    this.page = 0;
     this.cargarRooms();
+  }
+
+  //carga los datos con la pagina actual
+  cargarFiltrado() {
+    this.roomService.getByFilters(
+      this.tipoSeleccionado,
+      this.disponibleSeleccionado,
+      this.page,
+      this.size
+    ).subscribe(res => {
+      this.rooms = res.data;
+      this.totalRecords = res.total;
+    });
   }
 }
